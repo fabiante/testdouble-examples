@@ -17,9 +17,12 @@ func TestWithStubs(t *testing.T) {
 		application := app.NewApp(apis, apis)
 
 		apis.FnReserveFlight = func(seats int) (int, error) {
+			require.Equal(t, 5, seats)
 			return 1, nil
 		}
 		apis.FnReserveRoom = func(adults, children int) (int, error) {
+			require.Equal(t, 2, adults)
+			require.Equal(t, 3, children)
 			return 1, nil
 		}
 
@@ -39,9 +42,12 @@ func TestWithStubs(t *testing.T) {
 		application := app.NewApp(apis, apis)
 
 		apis.FnReserveFlight = func(seats int) (int, error) {
+			require.Equal(t, 5, seats)
 			return 1, nil
 		}
 		apis.FnReserveRoom = func(adults, children int) (int, error) {
+			require.Equal(t, 2, adults)
+			require.Equal(t, 3, children)
 			return 0, errors.New("room unavailable")
 		}
 
@@ -61,9 +67,12 @@ func TestWithStubs(t *testing.T) {
 		application := app.NewApp(apis, apis)
 
 		apis.FnReserveFlight = func(seats int) (int, error) {
+			require.Equal(t, 5, seats)
 			return 0, errors.New("flight unavailable")
 		}
 		apis.FnReserveRoom = func(adults, children int) (int, error) {
+			require.Equal(t, 2, adults)
+			require.Equal(t, 3, children)
 			return 1, nil
 		}
 
