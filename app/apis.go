@@ -1,9 +1,9 @@
 package app
 
 type HotelAPI interface {
-	ReserveRoom() (int, error)
+	ReserveRoom(adults, children int) (int, error)
 }
 
 type AirlineAPI interface {
-	ReserveFlight() (int, error)
+	ReserveFlight(seats int) (int, error)
 }
