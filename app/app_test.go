@@ -16,14 +16,16 @@ func TestWithStubs(t *testing.T) {
 
 		application := app.NewApp(apis, apis)
 
-		apis.FnReserveFlight = func() (int, error) {
+		apis.FnReserveFlight = func(seats int) (int, error) {
 			return 1, nil
 		}
-		apis.FnReserveRoom = func() (int, error) {
+		apis.FnReserveRoom = func(adults, children int) (int, error) {
 			return 1, nil
 		}
 
-		reservation, err := application.ReserveVacation()
+		adults, children := 2, 3
+
+		reservation, err := application.ReserveVacation(adults, children)
 		require.NoError(t, err)
 		require.NotNil(t, reservation)
 
@@ -36,14 +38,16 @@ func TestWithStubs(t *testing.T) {
 
 		application := app.NewApp(apis, apis)
 
-		apis.FnReserveFlight = func() (int, error) {
+		apis.FnReserveFlight = func(seats int) (int, error) {
 			return 1, nil
 		}
-		apis.FnReserveRoom = func() (int, error) {
+		apis.FnReserveRoom = func(adults, children int) (int, error) {
 			return 0, errors.New("room unavailable")
 		}
 
-		reservation, err := application.ReserveVacation()
+		adults, children := 2, 3
+
+		reservation, err := application.ReserveVacation(adults, children)
 		require.Error(t, err)
 		require.NotNil(t, reservation)
 
@@ -56,14 +60,16 @@ func TestWithStubs(t *testing.T) {
 
 		application := app.NewApp(apis, apis)
 
-		apis.FnReserveFlight = func() (int, error) {
+		apis.FnReserveFlight = func(seats int) (int, error) {
 			return 0, errors.New("flight unavailable")
 		}
-		apis.FnReserveRoom = func() (int, error) {
+		apis.FnReserveRoom = func(adults, children int) (int, error) {
 			return 1, nil
 		}
 
-		reservation, err := application.ReserveVacation()
+		adults, children := 2, 3
+
+		reservation, err := application.ReserveVacation(adults, children)
 		require.Error(t, err)
 		require.NotNil(t, reservation)
 
